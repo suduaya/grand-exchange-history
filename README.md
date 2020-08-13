@@ -4,8 +4,9 @@ Monitors Oldschool Runescape Grand Exchange recent trades towards registering it
 
 If you don't recognize this place, you probably won't understand the problem.
 
-<div style="text-align:center"><img width="500" height="300" src="https://github.com/suduaya/grand-exchange-history/blob/master/images/ge.png?raw=true"/></div>
-
+<p align="center">
+<img width="500" height="300" src="https://github.com/suduaya/grand-exchange-history/blob/master/images/ge.png?raw=true"/>
+</p>
 
 ## Using
 - Postgresql
