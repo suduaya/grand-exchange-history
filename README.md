@@ -4,7 +4,7 @@ Monitors Oldschool Runescape Grand Exchange recent trades towards registering it
 
 If you don't recognize this place, you probably won't understand the problem.
 
-![Grand Exchange](/images/ge.png){:height="50%" width="50%"}
+<img width="400" height="400" src="https://github.com/suduaya/grand-exchange-history/blob/master/images/ge.png?raw=true" />
 
 
 ## Using
