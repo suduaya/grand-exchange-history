@@ -4,7 +4,7 @@ Monitors Oldschool Runescape Grand Exchange recent trades towards registering it
 
 If you don't recognize this place, you probably won't understand the problem.
 
-![Grand Exchange](/ge.png)
+![Grand Exchange](/images/ge.png)
 
 
 ## Using
