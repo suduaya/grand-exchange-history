@@ -17,7 +17,10 @@ If you don't recognize this wonderful place, you probably won't understand the p
 ## Supporting
 - Item price overtime
 
-## In progress
+## Future 
 - Margins overtime
 - Suggested Items
 - User-friendly interface
+- Subscribe to item (notifications)
+- Sell/Buy item time (prediction)
+- and even more..
