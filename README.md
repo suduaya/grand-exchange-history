@@ -1,6 +1,6 @@
 # grand-exchange-history
 
-Monitors Oldschool Runescape Grand Exchange recent trades towards registering item price and margins behavior.
+Monitors Oldschool Runescape Grand Exchange recent trades towards registering item's price and margin behavior.
 
 If you don't recognize this place, you probably won't understand the problem.
 
