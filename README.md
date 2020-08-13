@@ -13,3 +13,11 @@ If you don't recognize this wonderful place, you probably won't understand the p
 - Redis
 - Docker
 - Go
+
+## Supporting
+- Item price overtime
+
+## In progress
+- Margins overtime
+- Suggested Items
+- User-friendly interface
