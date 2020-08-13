@@ -1,6 +1,7 @@
 package item
 
 import (
+	"database/sql"
 	"encoding/json"
 	"fmt"
 	"github.com/gorilla/mux"
@@ -10,8 +11,22 @@ import (
 	"strings"
 )
 
+const (
+	host     = "localhost"
+	port     = 5432
+	user     = "postgres"
+	password = "password"
+	dbname   = "postgres"
+)
+
+type Items struct {
+	Items []Item
+	Db    sql.DB
+}
+
 type Item struct {
 	Id         float64
+	LastUpdate string
 	Name       string
 	Buying     float64
 	Selling    float64
@@ -97,4 +112,48 @@ func SummaryContains(w http.ResponseWriter, r *http.Request) {
 	}
 	fmt.Println(allret)
 	json.NewEncoder(w).Encode(allret)
+}
+
+func (items Items) LoadItemsNameIds() {
+	psqlInfo := fmt.Sprintf("host=%s port=%d user=%s "+
+		"password=%s dbname=%s sslmode=disable",
+		host, port, user, password, dbname)
+
+	db, err := sql.Open("postgres", psqlInfo)
+	if err != nil {
+		panic(err)
+	}
+	defer db.Close()
+
+	err = db.Ping()
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Println("Connected to Postgres!")
+
+	api_endpoint := "https://rsbuddy.com/exchange/summary.json"
+
+	resp, err := http.Get(api_endpoint)
+	if err != nil {
+		// handle error
+	}
+	defer resp.Body.Close()
+	body, err := ioutil.ReadAll(resp.Body)
+	var event map[string]interface{}
+	json.Unmarshal(body, &event)
+	for _, v := range event {
+		id := v.(map[string]interface{})["id"].(float64)
+		name := v.(map[string]interface{})["name"].(string)
+		insertItem(db, id, name)
+	}
+
+}
+func insertItem(db *sql.DB, id float64, name string) {
+	fmt.Println("Inserting:", id, name)
+	sqlStatement := `INSERT INTO ge.items(id, name) VALUES ($1, $2);`
+	_, err := db.Exec(sqlStatement, id, name)
+	if err != nil {
+		fmt.Println(err)
+	}
 }
