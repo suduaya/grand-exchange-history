@@ -1,18 +1,43 @@
 package main
 
 import (
+	"database/sql"
 	"fmt"
-	"grand-exchange-history/api"
-	"grand-exchange-history/item"
-
 	_ "github.com/lib/pq"
+	"grand-exchange-history/api"
+)
+
+const (
+	host     = "localhost"
+	port     = 5432
+	user     = "postgres"
+	password = "password"
+	dbname   = "postgres"
 )
 
 func main() {
 	fmt.Println("Main is starting ...")
 
-	items := &item.Items{}
-	items.LoadItemsNameIds()
-	api.Run()
+	psqlInfo := fmt.Sprintf("host=%s port=%d user=%s "+
+		"password=%s dbname=%s sslmode=disable",
+		host, port, user, password, dbname)
 
+	db, err := sql.Open("postgres", psqlInfo)
+	if err != nil {
+		panic(err)
+	}
+	defer db.Close()
+
+	err = db.Ping()
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Println("Connected to Postgres!")
+
+	geApi := api.New(db)
+	geApi.Start()
+
+	//items := &item.Items{}
+	//items.LoadItemsNameIds()
 }

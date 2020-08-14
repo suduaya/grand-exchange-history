@@ -4,10 +4,8 @@ import (
 	"database/sql"
 	"encoding/json"
 	"fmt"
-	"github.com/gorilla/mux"
 	"io/ioutil"
 	"net/http"
-	"strconv"
 	"strings"
 )
 
@@ -25,61 +23,19 @@ type Items struct {
 }
 
 type Item struct {
-	Id         float64
-	LastUpdate string
-	Name       string
-	Buying     float64
-	Selling    float64
-	Margin     float64
-	Overall    float64
-	BuyingQtd  float64
-	SellingQtd float64
-	OverallQtd float64
+	Id         float64 `json:"id"`
+	LastUpdate string  `json:"last_update"`
+	Name       string  `json:"name"`
+	Buying     float64 `json:"buying_at"`
+	Selling    float64 `json:"selling_at"`
+	Margin     float64 `json:"margin"`
+	Overall    float64 `json:"overall"`
+	BuyingQtd  float64 `json:"buying_qtd"`
+	SellingQtd float64 `json:"selling_qtd"`
+	OverallQtd float64 `json:"overall_qtd"`
 }
 
-func Summary(w http.ResponseWriter, r *http.Request) {
-	params := mux.Vars(r)
-	id := params["id"]
-
-	var allret []Item
-	api_endpoint := "https://rsbuddy.com/exchange/summary.json"
-
-	resp, err := http.Get(api_endpoint)
-	if err != nil {
-		// handle error
-	}
-	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
-	var event map[string]interface{}
-	json.Unmarshal(body, &event)
-	for _, v := range event {
-		ret := Item{
-			Id:         v.(map[string]interface{})["id"].(float64),
-			Name:       v.(map[string]interface{})["name"].(string),
-			Buying:     v.(map[string]interface{})["buy_average"].(float64),
-			Selling:    v.(map[string]interface{})["sell_average"].(float64),
-			Margin:     v.(map[string]interface{})["buy_average"].(float64) - v.(map[string]interface{})["sell_average"].(float64),
-			Overall:    v.(map[string]interface{})["overall_average"].(float64),
-			BuyingQtd:  v.(map[string]interface{})["buy_quantity"].(float64),
-			SellingQtd: v.(map[string]interface{})["sell_quantity"].(float64),
-			OverallQtd: v.(map[string]interface{})["overall_quantity"].(float64),
-		}
-		s, _ := strconv.ParseFloat(id, 32)
-
-		if ret.Id == s {
-			allret = append(allret, ret)
-
-		}
-
-	}
-	fmt.Println(allret)
-	json.NewEncoder(w).Encode(allret)
-}
-
-func SummaryContains(w http.ResponseWriter, r *http.Request) {
-	params := mux.Vars(r)
-	id := params["id"]
-
+func ItemNameContains(item_name string) []Item {
 	var allret []Item
 	api_endpoint := "https://rsbuddy.com/exchange/summary.json"
 
@@ -104,14 +60,13 @@ func SummaryContains(w http.ResponseWriter, r *http.Request) {
 			OverallQtd: v.(map[string]interface{})["overall_quantity"].(float64),
 		}
 
-		if strings.Contains(strings.ToLower(ret.Name), strings.ToLower(id)) && !v.(map[string]interface{})["members"].(bool) {
+		if strings.Contains(strings.ToLower(ret.Name), strings.ToLower(item_name)) {
 			allret = append(allret, ret)
-
 		}
 
 	}
 	fmt.Println(allret)
-	json.NewEncoder(w).Encode(allret)
+	return allret
 }
 
 func (items Items) LoadItemsNameIds() {
@@ -149,6 +104,7 @@ func (items Items) LoadItemsNameIds() {
 	}
 
 }
+
 func insertItem(db *sql.DB, id float64, name string) {
 	fmt.Println("Inserting:", id, name)
 	sqlStatement := `INSERT INTO ge.items(id, name) VALUES ($1, $2);`
