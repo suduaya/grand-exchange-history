@@ -8,7 +8,8 @@
 
     <body>
         {{range .items}}
-            <br>{{.Name}}  --- <a href="/item/{{.Id}}">{{.Id}}</a>
+            <br>------------------------------------------------
+            <br><img src="https://rsbuddy.com/items/{{.Id}}.png"> <a href="/item/{{.Id}}">{{.Name}}</a>
         {{end}}
         <hr>
         This page not use master, Render code:

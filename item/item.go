@@ -130,7 +130,7 @@ func SelectAllItems() (ret []ItemNameId) {
 	if err != nil {
 		panic(err)
 	}
-	sqlStatement := `SELECT id, name FROM ge.items;`
+	sqlStatement := `SELECT id, name FROM ge.items ORDER BY name ASC;`
 	rows, err := db.Query(sqlStatement)
 	if err != nil {
 		fmt.Println(err)

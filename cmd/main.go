@@ -5,6 +5,7 @@ import (
 	"fmt"
 	_ "github.com/lib/pq"
 	"grand-exchange-history/api"
+	"grand-exchange-history/web"
 )
 
 const (
@@ -35,9 +36,12 @@ func main() {
 
 	fmt.Println("Connected to Postgres!")
 
+	go web.Start()
+
 	geApi := api.New(db)
 	geApi.Start()
 
 	//items := &item.Items{}
 	//items.LoadItemsNameIds()
+
 }
