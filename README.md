@@ -11,7 +11,8 @@ If you don't recognize this wonderful place, you probably won't understand the p
 ## Using
 - Postgresql
 - Docker
-- Go
+- Gorilla Mux (Back-end)
+- Gin Gonic (Front-End)
 
 ## Supporting
 - Item price overtime
