@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"github.com/gorilla/mux"
 	"io/ioutil"
+	"log"
 	"net/http"
 	"strconv"
 	"strings"
@@ -156,4 +157,46 @@ func insertItem(db *sql.DB, id float64, name string) {
 	if err != nil {
 		fmt.Println(err)
 	}
+}
+
+func SelectAllItems() (ret []ItemNameId) {
+	psqlInfo := fmt.Sprintf("host=%s port=%d user=%s "+
+		"password=%s dbname=%s sslmode=disable",
+		host, port, user, password, dbname)
+
+	db, err := sql.Open("postgres", psqlInfo)
+	if err != nil {
+		panic(err)
+	}
+	defer db.Close()
+
+	err = db.Ping()
+	if err != nil {
+		panic(err)
+	}
+	sqlStatement := `SELECT id, name FROM ge.items;`
+	rows, err := db.Query(sqlStatement)
+	if err != nil {
+		fmt.Println(err)
+	}
+	for rows.Next() {
+		var name string
+		var id int
+		if err := rows.Scan(&id, &name); err != nil {
+			log.Fatal(err)
+		}
+
+		item := ItemNameId{
+			Id:   id,
+			Name: name,
+		}
+
+		ret = append(ret, item)
+	}
+	return ret
+}
+
+type ItemNameId struct {
+	Id   int
+	Name string
 }

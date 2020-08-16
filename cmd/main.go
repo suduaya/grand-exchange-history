@@ -2,8 +2,7 @@ package main
 
 import (
 	"fmt"
-	"grand-exchange-history/api"
-	"grand-exchange-history/item"
+	"grand-exchange-history/web"
 
 	_ "github.com/lib/pq"
 )
@@ -11,8 +10,9 @@ import (
 func main() {
 	fmt.Println("Main is starting ...")
 
-	items := &item.Items{}
-	items.LoadItemsNameIds()
-	api.Run()
+	//items := &item.Items{}
+	//items.LoadItemsNameIds()
+	//go api.Run()
+	web.Start()
 
 }
