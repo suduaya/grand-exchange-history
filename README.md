@@ -10,7 +10,6 @@ If you don't recognize this wonderful place, you probably won't understand the p
 
 ## Using
 - Postgresql
-- Redis
 - Docker
 - Go
 
