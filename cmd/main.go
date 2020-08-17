@@ -38,6 +38,9 @@ func main() {
 
 	go web.Start()
 
+	//items := &item.Items{}
+	//items.LoadItemsNameIds()
+
 	geApi := api.New(db)
 	geApi.Start()
 

@@ -8,10 +8,7 @@
 </head>
 
 <body>
-<form method="POST">
-    <input type=text name="item_name" value="" placeholder="Item name">
-    <input type="submit" value="Search">
-</form>
+</body>
 
 <div style="position:absolute; top:60px; left:10px; width:500px; height:500px;">
     <canvas id="line-chart" width="10" height="10"></canvas>
@@ -56,14 +53,5 @@
         });
     </script>
     <div>
-
-        {{range .items}}
-            <br>------------------------------------------------
-            <br><img src="https://rsbuddy.com/items/{{.Id}}.png"> <a href="/graph/{{.Id}}">{{.Name}}</a>
-        {{end}}
-        <hr>
-
-
-</body>
 
 </html>

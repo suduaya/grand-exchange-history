@@ -29,5 +29,12 @@ func Start() {
 		ctx.HTML(http.StatusOK, "../../web/views/page.html", gin.H{"title": "Page file title!!", "items": items})
 	})
 
+	router.GET("/graph/:id", func(ctx *gin.Context) {
+		id := ctx.Param("id")
+		fmt.Println("name:", id)
+		items := []item.ItemNameId{}
+		ctx.HTML(http.StatusOK, "../../web/views/graph.html", gin.H{"title": id, "items": items})
+	})
+
 	router.Run(":9090")
 }
