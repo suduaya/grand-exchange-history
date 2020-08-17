@@ -8,6 +8,12 @@
 </head>
 
 <body>
+<form method="POST">
+    <input type=text name="item_name" value="" placeholder="Item name">
+    <input type="submit" value="Search">
+</form>
+
+
 {{range .items}}
     <br>------------------------------------------------
     <br><img src="https://rsbuddy.com/items/{{.Id}}.png"> <a href="/item/{{.Id}}">{{.Name}}</a>
@@ -59,6 +65,8 @@
         });
     </script>
     <div>
+
+
 
 </body>
 
