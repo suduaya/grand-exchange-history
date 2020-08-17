@@ -7,7 +7,10 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"sort"
+	"strconv"
 	"strings"
+	"time"
 )
 
 const (
@@ -21,6 +24,11 @@ const (
 type Items struct {
 	Items []Item
 	Db    sql.DB
+}
+
+type ItemNameId struct {
+	Id   int
+	Name string
 }
 
 type Item struct {
@@ -152,7 +160,38 @@ func SelectAllItems() (ret []ItemNameId) {
 	return ret
 }
 
-type ItemNameId struct {
-	Id   int
-	Name string
+func LoadItemPriceHistory(id string, amountOfDays int) ([]string, []float64) {
+	item_example := "http://services.runescape.com/m=itemdb_oldschool/api/graph/" + id + ".json"
+
+	resp, err := http.Get(item_example)
+	if err != nil {
+		// handle error
+	}
+	defer resp.Body.Close()
+
+	body, err := ioutil.ReadAll(resp.Body)
+
+	var event2 map[string]interface{}
+	json.Unmarshal(body, &event2)
+
+	daily := event2["daily"].(map[string]interface{})
+
+	var x []string
+	var y []float64
+
+	keys := make([]string, 0, len(daily))
+	for k := range daily {
+		keys = append(keys, k)
+	}
+	sort.Strings(keys)
+
+	for _, k := range keys[len(keys)-amountOfDays:] {
+		sec, _ := strconv.ParseInt(k, 10, 64)
+		t := time.Unix(sec/1000, 0)
+		fmt.Println("sec: ", sec, t)
+		x = append(x, strconv.Itoa(t.Day())+"\n"+t.Month().String())
+		y = append(y, daily[k].(float64))
+	}
+
+	return x, y
 }

@@ -4,7 +4,6 @@ import (
 	"context"
 	"database/sql"
 	"github.com/gorilla/mux"
-	"grand-exchange-history/charts"
 	"log"
 	"net/http"
 	"time"
@@ -71,7 +70,6 @@ func New(db *sql.DB) *API {
 		db:     db,
 	}
 
-	router.HandleFunc("/graph/{id}", logTracing(charts.LineHandler)).Methods("GET")
 	router.HandleFunc("/search/{item_name}", logTracing(api.ItemSearchHandler)).Methods("GET")
 
 	log.Println("Run server at " + srv.Addr)

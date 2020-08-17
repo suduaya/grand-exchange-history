@@ -4,13 +4,18 @@
 
 <html>
 <head>
-    <title>{{.title}}</title>
+    <title>{{.id}}</title>
 </head>
 
 <body>
+Item: <img src="https://rsbuddy.com/items/{{.id}}.png"><br>
+
+<a href="/graph/{{.id}}/weekly">Weekly</a><br>
+<a href="/graph/{{.id}}/monthly">Monthly</a><br>
+<a href="/graph/{{.id}}/quarter">Quarter</a><br>
 </body>
 
-<div style="position:absolute; top:60px; left:10px; width:500px; height:500px;">
+<div style="position:absolute; width:500px; height:500px;">
     <canvas id="line-chart" width="10" height="10"></canvas>
     <script>new Chart(document.getElementById("line-chart"), {
             type: 'line',
@@ -18,7 +23,7 @@
                 labels: {{ .x }},
                 datasets: [{
                     data: {{ .y }},
-                    label: "Africa",
+                    label: "Average Price (gp)",
                     borderColor: "#3e95cd",
                     fill: false
                 }
@@ -27,7 +32,14 @@
             options: {
                 title: {
                     display: true,
-                    text: {{.title}}
+                    text: {{.id}}
+                },
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            suggestedMin: 0,
+                        }
+                    }]
                 }
             }
         });
