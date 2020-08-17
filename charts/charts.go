@@ -19,7 +19,7 @@ func LineHandler(w http.ResponseWriter, r *http.Request) {
 	page := charts.NewPage()
 	params := mux.Vars(r)
 	id := params["id"]
-	data, id := loadItem(id)
+	data, id := LoadItem(id)
 	page.Add(
 		lineDemo(data, id),
 	)
@@ -72,7 +72,7 @@ func lineDemo(daily map[string]interface{}, id string) *charts.Line {
 	return line
 }
 
-func loadItem(id string) (map[string]interface{}, string) {
+func LoadItem(id string) (map[string]interface{}, string) {
 	item_example := "http://services.runescape.com/m=itemdb_oldschool/api/graph/" + id + ".json"
 
 	resp, err := http.Get(item_example)
