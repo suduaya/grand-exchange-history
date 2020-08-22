@@ -15,6 +15,10 @@ Item: <img src="https://rsbuddy.com/items/{{.id}}.png"><br>
 <a href="/graph/{{.id}}/quarter">Quarter</a><br>
 </body>
 
+<p>Buying: {{.item_struct.Buying }}</p>
+<p>Selling: {{.item_struct.Selling }}</p>
+<p>Margin: {{.item_struct.Margin }}</p>
+
 <div style="position:absolute; width:500px; height:500px;">
     <canvas id="line-chart" width="10" height="10"></canvas>
     <script>new Chart(document.getElementById("line-chart"), {
@@ -32,7 +36,7 @@ Item: <img src="https://rsbuddy.com/items/{{.id}}.png"><br>
             options: {
                 title: {
                     display: true,
-                    text: {{.id}}
+                    text: {{.item_struct.Name}}
                 },
                 scales: {
                     yAxes: [{
@@ -44,6 +48,7 @@ Item: <img src="https://rsbuddy.com/items/{{.id}}.png"><br>
             }
         });
     </script>
+
     <div>
 
 </html>
