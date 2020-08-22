@@ -57,17 +57,25 @@ func Start() {
 	router.GET("/graph/:id/monthly", func(ctx *gin.Context) {
 		id := ctx.Param("id")
 
+		s, _ := strconv.ParseFloat(id, 64)
+		item_struct := item.GetItemById(s)[0]
+		fmt.Println("item_struct: ", item_struct)
+
 		x, y := item.LoadItemPriceHistory(id, 30)
 		items := []item.ItemNameId{}
-		ctx.HTML(http.StatusOK, "../../web/views/graph.html", gin.H{"id": id, "items": items, "x": x, "y": y})
+		ctx.HTML(http.StatusOK, "../../web/views/graph.html", gin.H{"id": id, "items": items, "x": x, "y": y, "item_struct": item_struct})
 	})
 
 	router.GET("/graph/:id/quarter", func(ctx *gin.Context) {
 		id := ctx.Param("id")
 
+		s, _ := strconv.ParseFloat(id, 64)
+		item_struct := item.GetItemById(s)[0]
+		fmt.Println("item_struct: ", item_struct)
+
 		x, y := item.LoadItemPriceHistory(id, 90)
 		items := []item.ItemNameId{}
-		ctx.HTML(http.StatusOK, "../../web/views/graph.html", gin.H{"id": id, "items": items, "x": x, "y": y})
+		ctx.HTML(http.StatusOK, "../../web/views/graph.html", gin.H{"id": id, "items": items, "x": x, "y": y, "item_struct": item_struct})
 	})
 
 	router.Run(":9090")
