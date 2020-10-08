@@ -3,10 +3,11 @@ package api
 import (
 	"context"
 	"database/sql"
-	"github.com/gorilla/mux"
 	"log"
 	"net/http"
 	"time"
+
+	"github.com/gorilla/mux"
 )
 
 type API struct {
